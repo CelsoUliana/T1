@@ -14,6 +14,7 @@ import com.example.t1.Model.Root;
 import com.example.t1.Model.User;
 import com.example.t1.R;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import io.realm.Realm;
@@ -67,12 +68,14 @@ public class LoginActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance(); // opens "t1.realm"
         try {
             // Persist your data in a transaction
+            InputStream inputStream = getResources().openRawResource(R.raw.user);
+
             realm.beginTransaction();
-            User usu = realm.createObject(User.class); // Create managed objects directly
-            usu.setLogin("admin");
-            usu.setPassword("123");
+            realm.createObjectFromJson(User.class, inputStream);
             realm.commitTransaction();
 
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             realm.close();
         }
