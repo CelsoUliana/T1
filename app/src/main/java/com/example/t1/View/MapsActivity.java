@@ -1,14 +1,19 @@
-package com.example.t1;
+package com.example.t1.View;
 
 import androidx.fragment.app.FragmentActivity;
-import android.os.Bundle;
 
+import android.os.Bundle;
+import android.view.View;
+
+import com.example.t1.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -24,6 +29,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+
+    public void draw(View v){
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
+                .width(5)
+                .color(R.color.colorPrimary));
+
+    }
 
     /**
      * Manipulates the map once available.
