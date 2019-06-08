@@ -1,10 +1,7 @@
 package com.example.t1.View;
 
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,18 +10,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.t1.Model.Cattle;
+import com.example.t1.Model.Root;
 import com.example.t1.Model.User;
 import com.example.t1.R;
 
-import java.io.File;
 import java.io.InputStream;
-import android.content.res.Resources;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import io.realm.internal.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -52,34 +46,21 @@ public class LoginActivity extends AppCompatActivity {
 
     public void CreateDatabaseFromJson() {
 
+        realm = Realm.getDefaultInstance();
 
-        final RealmResults<User> usu = realm.where(User.class)
-                .equalTo("login", "admin")
-                .equalTo("password", "123")
-                .findAll();
+        InputStream inputStream = getResources().openRawResource(R.raw.cattle);
+        InputStream is = getResources().openRawResource(R.raw.cattle2);
 
-        if(usu.size() == 0) {
-
-            Realm realm = Realm.getDefaultInstance();
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    InputStream inputStream = getResources().openRawResource(R.raw.cattle);
-                    try {
-                        realm.createAllFromJson(Cattle.class, inputStream);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        realm.close();
-                    }
-                }
-            });
-
-        }
-
-        else
+        try {
+            realm.beginTransaction();
+            realm.createObjectFromJson(Root.class, inputStream);
+            realm.createObjectFromJson(Root.class, is);
+            realm.commitTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             realm.close();
+        }
     }
 
     protected void CreateDefaultUser() {
