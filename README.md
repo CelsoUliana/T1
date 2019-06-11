@@ -7,7 +7,7 @@
 
 ## Aplicativo protótipo de mapa
 
-  Um simples aplicativo que tem como o objetivo validar a teoria que talvez pode se achar regiões que o gado não anda.
+  Um simples aplicativo que tem como o objetivo validar a teoria que talvez pode se achar regiões que o gado não anda utilizando mapas e suas funcionalidades.
   
   
 ## Tecnologias utilizadas
